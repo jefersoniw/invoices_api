@@ -20,18 +20,13 @@ class Invoice extends Model
 
     public function createInvoice(array $request = [])
     {
-
         try {
-
             $invoice = self::create($request);
-
             if (!$invoice) {
                 throw new Exception;
             }
-
             return $invoice;
         } catch (Exception $error) {
-
             return false;
         }
     }

@@ -49,7 +49,7 @@ class InvoiceController extends Controller
         $invoice = $this->invoice->createInvoice($validator->validated());
 
         if ($invoice) {
-            return $this->response('Invoice Created', 200, $invoice);
+            return $this->response('Invoice Created', 200, new InvoiceResource($invoice->load('user')));
         } else {
             return $this->response('Invoice not Created', 400);
         }
