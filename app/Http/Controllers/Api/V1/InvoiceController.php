@@ -48,11 +48,11 @@ class InvoiceController extends Controller
 
         $invoice = $this->invoice->createInvoice($validator->validated());
 
-        if ($invoice) {
-            return $this->response('Invoice Created', 200, new InvoiceResource($invoice->load('user')));
-        } else {
+        if (!$invoice) {
             return $this->response('Invoice not Created', 400);
         }
+
+        return $this->response('Invoice Created', 200, new InvoiceResource($invoice->load('user')));
     }
 
     /**
@@ -66,9 +66,27 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Invoice $invoice)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'type' => 'required:max:1',
+            'paid' => 'required|numeric|between:0,1',
+            'payment_date' => 'nullable|date_format:Y-m-d H:i:s',
+            'value' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->error('Validation Failed', 422, $validator->errors());
+        }
+
+        $invoice = $this->invoice->updateInvoice($invoice, $validator->validated());
+
+        if (!$invoice) {
+            return $this->error('Invoice not updated', 400);
+        }
+
+        return $this->response('Invoice Updated', 200, new InvoiceResource($invoice->load('user')));
     }
 
     /**

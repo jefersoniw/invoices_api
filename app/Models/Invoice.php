@@ -31,6 +31,27 @@ class Invoice extends Model
         }
     }
 
+    public function updateInvoice(Invoice $invoice, array $request = [])
+    {
+        try {
+
+            $invoice->update([
+                'user_id' => $request['user_id'],
+                'type' => $request['type'],
+                'paid' => $request['paid'],
+                'value' => $request['value'],
+                'payment_date' => $request['paid'] ? $request['payment_date'] : null,
+            ]);
+
+            if (!$invoice) {
+                throw new Exception;
+            }
+            return $invoice;
+        } catch (Exception $error) {
+            return false;
+        }
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
