@@ -37,7 +37,7 @@ class InvoiceController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'type' => 'required:max:1',
-            'paid' => 'required|numeric|between:0,1',
+            'paid' => 'required|numeric|between:0,1|in:' . \implode(',', ['B', 'C', 'P']),
             'payment_date' => 'nullable',
             'value' => 'required|numeric|between:1,9999.99'
         ]);
@@ -92,8 +92,14 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Invoice $invoice)
     {
-        //
+        $deleted = $invoice->delete();
+
+        if ($deleted) {
+            return $this->response('Invoice Deleted', 200);
+        }
+
+        return $this->error('Invoice not deleted', 400);
     }
 }
