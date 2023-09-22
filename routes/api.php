@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\InvoiceController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,5 @@ Route::prefix('/v1')->group(function () {
     Route::get('/invoices/{invoice}', [InvoiceController::class, 'show']);
     Route::post('/invoices', [InvoiceController::class, 'store']);
     Route::put('/invoices/{invoice}', [InvoiceController::class, 'update']);
+    Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy']);
 });
