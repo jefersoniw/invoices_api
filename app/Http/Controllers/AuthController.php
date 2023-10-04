@@ -6,8 +6,6 @@ use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-// 3|YP46bv6eNsIJDdUhT4CB37D6bz6ikfqZ4AT9H3Ul8ab97cd8
-
 class AuthController extends Controller
 {
 

@@ -16,7 +16,7 @@ Route::prefix('/v1')->group(function () {
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{user}', [UserController::class, 'show']);
 
-    Route::apiResource('invoices', InvoiceController::class)->middleware('auth:sanctum');
+    Route::apiResource('invoices', InvoiceController::class);
 
     Route::get('/filter/invoices', [InvoiceController::class, 'filter']);
 

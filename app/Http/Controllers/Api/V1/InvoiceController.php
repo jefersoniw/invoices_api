@@ -16,6 +16,7 @@ class InvoiceController extends Controller
 
     public function __construct(Invoice $invoice)
     {
+        $this->middleware('auth:sanctum')->only(['store', 'update']);
         $this->invoice = $invoice;
     }
 
@@ -38,7 +39,7 @@ class InvoiceController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'type' => 'required:max:1',
-            'paid' => 'required|numeric|between:0,1|in:' . \implode(',', ['B', 'C', 'P']),
+            'paid' => 'required|numeric|between:0,1',
             'payment_date' => 'nullable',
             'value' => 'required|numeric|between:1,9999.99'
         ]);
