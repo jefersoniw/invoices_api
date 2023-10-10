@@ -7,6 +7,7 @@ use App\Http\Resources\V1\InvoiceResource;
 use App\Models\Invoice;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class InvoiceController extends Controller
@@ -36,6 +37,10 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Auth::user()->tokenCan('invoice-store')) {
+            return $this->error('Unauthorized', 403);
+        }
+
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'type' => 'required:max:1',

@@ -14,12 +14,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/v1')->group(function () {
     Route::get('/users', [UserController::class, 'index']);
-    Route::get('/users/{user}', [UserController::class, 'show']);
 
     Route::apiResource('invoices', InvoiceController::class);
 
     Route::get('/filter/invoices', [InvoiceController::class, 'filter']);
 
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/teste', [TesteController::class, 'index'])->middleware('ability:teste-index');
+        Route::get('/users/{user}', [UserController::class, 'show'])->middleware('ability:user-get');
+    });
+
     Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/teste', [TesteController::class, 'index'])->middleware('auth:sanctum');
 });
