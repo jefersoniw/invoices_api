@@ -26,7 +26,10 @@ class AuthController extends Controller
         return $this->response('Not Authorized', 403);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
+        $request->user()->currentAccessToken()->delete();
+
+        return $this->response('Token Revoked', 200);
     }
 }

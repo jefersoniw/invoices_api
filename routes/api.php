@@ -22,6 +22,7 @@ Route::prefix('/v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/teste', [TesteController::class, 'index'])->middleware('ability:teste-index');
         Route::get('/users/{user}', [UserController::class, 'show'])->middleware('ability:user-get');
+        Route::post('/logout', [AuthController::class, 'logout']);
     });
 
     Route::post('/login', [AuthController::class, 'login']);
